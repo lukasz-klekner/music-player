@@ -16,9 +16,15 @@ function SongPlayer({ showControls = true, song: { audioUrl, coverUrl } }) {
   )
 }
 
-function SongListItem({ song: { title, artist } }) {
+function SongListItem({ song, song: { title, artist }, isCurrent, onSelect }) {
+  function handleClick() {
+    onSelect(song)
+  }
   return (
-    <li>
+    <li
+      onClick={handleClick}
+      style={{ background: isCurrent ? 'darkslategrey' : '' }}
+    >
       {title} by {artist}
     </li>
   )
@@ -45,14 +51,22 @@ function App() {
       artist: 'Wowa',
     },
   ]
-
   const currentSong = songs[1]
+
+  function handleSelectSong(selectedSong) {
+    console.log(selectedSong)
+  }
 
   return (
     <div className='App'>
       <SongPlayer showControls song={currentSong} />
       {songs.map((song) => (
-        <SongListItem key={song.audioUrl} song={song} />
+        <SongListItem
+          key={song.audioUrl}
+          song={song}
+          isCurrent={song.audioUrl === currentSong.audioUrl}
+          onSelect={handleSelectSong}
+        />
       ))}
     </div>
   )
