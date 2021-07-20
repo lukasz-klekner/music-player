@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function Heading({ title }) {
+  return <h1>{title}</h1>
 }
 
-export default App;
+function SongPlayer({ showControls = true, song: { audioUrl, coverUrl } }) {
+  return (
+    <section>
+      <Heading title='Music Player' />
+      <img width='250' height='250' src={coverUrl} alt='Song cover' />
+      <audio key={audioUrl} controls={showControls}>
+        <source src={audioUrl} />
+      </audio>
+    </section>
+  )
+}
+
+function SongListItem({ song: { title, artist } }) {
+  return (
+    <li>
+      {title} by {artist}
+    </li>
+  )
+}
+
+function App() {
+  const songs = [
+    {
+      audioUrl: 'https://examples.devmastery.pl/assets/audio/deadfro5h.mp3',
+      coverUrl: 'https://examples.devmastery.pl/assets/audio/deadfro5h.jpg',
+      title: 'Deadfro5h',
+      artist: 'starfrosh',
+    },
+    {
+      audioUrl: 'https://examples.devmastery.pl/assets/audio/majesty.mp3',
+      coverUrl: 'https://examples.devmastery.pl/assets/audio/majesty.jpg',
+      title: 'Majesty (Original Mix)',
+      artist: 'Ryan Craig Martin',
+    },
+    {
+      audioUrl: 'https://examples.devmastery.pl/assets/audio/runs.mp3',
+      coverUrl: 'https://examples.devmastery.pl/assets/audio/runs.jpg',
+      title: 'Runs',
+      artist: 'Wowa',
+    },
+  ]
+
+  const currentSong = songs[1]
+
+  return (
+    <div className='App'>
+      <SongPlayer showControls song={currentSong} />
+      {songs.map((song) => (
+        <SongListItem key={song.audioUrl} song={song} />
+      ))}
+    </div>
+  )
+}
+
+export default App
