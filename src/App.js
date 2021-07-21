@@ -37,28 +37,19 @@ function SongListItem({ song, song: { title, artist }, isCurrent, onSelect }) {
 }
 
 function App() {
-  const songs = [
-    {
-      audioUrl: 'https://examples.devmastery.pl/assets/audio/deadfro5h.mp3',
-      coverUrl: 'https://examples.devmastery.pl/assets/audio/deadfro5h.jpg',
-      title: 'Deadfro5h',
-      artist: 'starfrosh',
-    },
-    {
-      audioUrl: 'https://examples.devmastery.pl/assets/audio/majesty.mp3',
-      coverUrl: 'https://examples.devmastery.pl/assets/audio/majesty.jpg',
-      title: 'Majesty (Original Mix)',
-      artist: 'Ryan Craig Martin',
-    },
-    {
-      audioUrl: 'https://examples.devmastery.pl/assets/audio/runs.mp3',
-      coverUrl: 'https://examples.devmastery.pl/assets/audio/runs.jpg',
-      title: 'Runs',
-      artist: 'Wowa',
-    },
-  ]
+  const URL = 'https://examples.devmastery.pl/songs-api/songs'
+
+  const [songs, setSongs] = useState([])
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const currentSong = songs[currentSongIndex]
+
+  useEffect(() => {
+    fetch(URL).then((response) => {
+      if (response.ok) {
+        response.json().then(setSongs)
+      }
+    })
+  }, [])
 
   function handleSelectSong(selectedSong) {
     const audioIndex = songs.findIndex(
@@ -72,15 +63,22 @@ function App() {
 
   return (
     <div className='App'>
-      <SongPlayer song={currentSong} />
-      {songs.map((song) => (
-        <SongListItem
-          key={song.audioUrl}
-          song={song}
-          isCurrent={song.audioUrl === currentSong.audioUrl}
-          onSelect={handleSelectSong}
-        />
-      ))}
+      {songs.length === 0 ? (
+        'Loading'
+      ) : (
+        <>
+          {' '}
+          <SongPlayer song={currentSong} />
+          {songs.map((song) => (
+            <SongListItem
+              key={song.audioUrl}
+              song={song}
+              isCurrent={song.audioUrl === currentSong.audioUrl}
+              onSelect={handleSelectSong}
+            />
+          ))}
+        </>
+      )}
     </div>
   )
 }
