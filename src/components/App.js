@@ -1,47 +1,11 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
+import { Heading } from './Heading'
+import { SongPlayer } from './SongPlayer'
+import { SongListItem } from './SongListItem'
+import { Songs } from './Songs'
 
-function Heading({ title }) {
-  return <h1>{title}</h1>
-}
-
-function SongPlayer({ showControls = false, song: { audioUrl, coverUrl } }) {
-  const audioRef = useRef()
-  return (
-    <section className='SongPlayer'>
-      <Heading title='Music Player' />
-      <img width='250' height='250' src={coverUrl} alt='Song cover' />
-      <audio ref={audioRef} key={audioUrl} controls={showControls}>
-        <source src={audioUrl} />
-      </audio>
-      <div>
-        <button onClick={() => audioRef.current.play()}>Play</button>
-        <button onClickCapture={() => audioRef.current.pause()}>Pause</button>
-      </div>
-    </section>
-  )
-}
-
-function SongListItem({ song, song: { title, artist }, isCurrent, onSelect }) {
-  function handleClick() {
-    onSelect(song)
-  }
-  return (
-    <li
-      className={`SongListItem ${isCurrent ? 'selected' : ''}`}
-      onClick={handleClick}
-      style={{ background: isCurrent ? 'darkslategrey' : '' }}
-    >
-      {title} by {artist}
-    </li>
-  )
-}
-
-function Songs({ children }) {
-  return <section className='Songs'>{children}</section>
-}
-
-function App() {
+export function App() {
   const URL = 'https://examples.devmastery.pl/songs-api/songs'
 
   const [songs, setSongs] = useState([])
@@ -92,5 +56,3 @@ function App() {
     </div>
   )
 }
-
-export default App

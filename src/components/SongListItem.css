@@ -1,0 +1,12 @@
+.SongListItem {
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.SongListItem.selected {
+  background-color: darkslategray;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
