@@ -37,6 +37,10 @@ function SongListItem({ song, song: { title, artist }, isCurrent, onSelect }) {
   )
 }
 
+function Songs({ children }) {
+  return <section className='Songs'>{children}</section>
+}
+
 function App() {
   const URL = 'https://examples.devmastery.pl/songs-api/songs'
 
@@ -70,7 +74,7 @@ function App() {
         <>
           {' '}
           <SongPlayer song={currentSong} />
-          <section className='Songs'>
+          <Songs>
             <Heading title='Songs' />
             <ul>
               {songs.map((song) => (
@@ -82,7 +86,7 @@ function App() {
                 />
               ))}
             </ul>
-          </section>
+          </Songs>
         </>
       )}
     </div>
