@@ -1,17 +1,23 @@
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
 function Heading({ title }) {
   return <h1>{title}</h1>
 }
 
-function SongPlayer({ showControls = true, song: { audioUrl, coverUrl } }) {
+function SongPlayer({ showControls = false, song: { audioUrl, coverUrl } }) {
+  const audioRef = useRef()
   return (
     <section>
       <Heading title='Music Player' />
       <img width='250' height='250' src={coverUrl} alt='Song cover' />
-      <audio key={audioUrl} controls={showControls}>
+      <audio ref={audioRef} key={audioUrl} controls={showControls}>
         <source src={audioUrl} />
       </audio>
+      <div>
+        <button onClick={() => audioRef.current.play()}>Play</button>
+        <button onClickCapture={() => audioRef.current.pause()}>Pause</button>
+      </div>
     </section>
   )
 }
@@ -51,15 +57,22 @@ function App() {
       artist: 'Wowa',
     },
   ]
-  const currentSong = songs[1]
+  const [currentSongIndex, setCurrentSongIndex] = useState(0)
+  const currentSong = songs[currentSongIndex]
 
   function handleSelectSong(selectedSong) {
-    console.log(selectedSong)
+    const audioIndex = songs.findIndex(
+      (song) => song.audioUrl === selectedSong.audioUrl
+    )
+
+    if (audioIndex >= 0) {
+      setCurrentSongIndex(audioIndex)
+    }
   }
 
   return (
     <div className='App'>
-      <SongPlayer showControls song={currentSong} />
+      <SongPlayer song={currentSong} />
       {songs.map((song) => (
         <SongListItem
           key={song.audioUrl}
