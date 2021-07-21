@@ -8,7 +8,7 @@ function Heading({ title }) {
 function SongPlayer({ showControls = false, song: { audioUrl, coverUrl } }) {
   const audioRef = useRef()
   return (
-    <section>
+    <section className='SongPlayer'>
       <Heading title='Music Player' />
       <img width='250' height='250' src={coverUrl} alt='Song cover' />
       <audio ref={audioRef} key={audioUrl} controls={showControls}>
@@ -28,6 +28,7 @@ function SongListItem({ song, song: { title, artist }, isCurrent, onSelect }) {
   }
   return (
     <li
+      className={`SongListItem ${isCurrent ? 'selected' : ''}`}
       onClick={handleClick}
       style={{ background: isCurrent ? 'darkslategrey' : '' }}
     >
@@ -69,14 +70,19 @@ function App() {
         <>
           {' '}
           <SongPlayer song={currentSong} />
-          {songs.map((song) => (
-            <SongListItem
-              key={song.audioUrl}
-              song={song}
-              isCurrent={song.audioUrl === currentSong.audioUrl}
-              onSelect={handleSelectSong}
-            />
-          ))}
+          <section className='Songs'>
+            <Heading title='Songs' />
+            <ul>
+              {songs.map((song) => (
+                <SongListItem
+                  key={song.audioUrl}
+                  song={song}
+                  isCurrent={song.audioUrl === currentSong.audioUrl}
+                  onSelect={handleSelectSong}
+                />
+              ))}
+            </ul>
+          </section>
         </>
       )}
     </div>
