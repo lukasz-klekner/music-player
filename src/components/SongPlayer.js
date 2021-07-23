@@ -5,8 +5,18 @@ import { Heading } from './Heading'
 export function SongPlayer({
   showControls = false,
   song: { audioUrl, coverUrl },
+  onPreviousSongChange,
+  onNextSongChange,
 }) {
   const audioRef = useRef()
+
+  function handlePrevClick() {
+    onPreviousSongChange()
+  }
+
+  function handleNextClick() {
+    onNextSongChange()
+  }
   return (
     <section className='SongPlayer'>
       <Heading title='Music Player' />
@@ -15,8 +25,10 @@ export function SongPlayer({
         <source src={audioUrl} />
       </audio>
       <div>
+        <button onClick={handlePrevClick}>Previous</button>
         <button onClick={() => audioRef.current.play()}>Play</button>
         <button onClickCapture={() => audioRef.current.pause()}>Pause</button>
+        <button onClick={handleNextClick}>Next</button>
       </div>
     </section>
   )

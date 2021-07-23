@@ -30,6 +30,16 @@ export function App() {
     }
   }
 
+  function handlePreviousSongChange() {
+    const nextIndex = (currentSongIndex + songs.length - 1) % songs.length
+    setCurrentSongIndex(nextIndex)
+  }
+
+  function handleNextSongChange() {
+    const newIndex = (currentSongIndex + 1) % songs.length
+    setCurrentSongIndex(newIndex)
+  }
+
   return (
     <div className='App'>
       {songs.length === 0 ? (
@@ -37,7 +47,11 @@ export function App() {
       ) : (
         <>
           {' '}
-          <SongPlayer song={currentSong} />
+          <SongPlayer
+            song={currentSong}
+            onPreviousSongChange={handlePreviousSongChange}
+            onNextSongChange={handleNextSongChange}
+          />
           <Songs>
             <Heading title='Songs' />
             <ul>
